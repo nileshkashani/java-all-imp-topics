@@ -15,6 +15,7 @@ public class Encapsulation {
         // Get values using getters
         System.out.println("Name : " + student.getName());
         System.out.println("Age  : " + student.getAge());
+
     }
 }
 

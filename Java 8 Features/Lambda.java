@@ -22,8 +22,6 @@ public class Lambda {
         System.out.println("Sum: " + result);
 
 
-
-
         //lambda with inbuilt interface
 
         //1.Predicate: Tests a condition and returns true/false.
