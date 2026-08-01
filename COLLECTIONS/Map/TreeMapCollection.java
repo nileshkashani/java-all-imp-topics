@@ -1,4 +1,4 @@
-package COLLECTIONS.Map;
+package Collections.Map;
 import java.util.Comparator; //import Comparator
 import java.util.TreeMap; //import TreeMap
 import java.util.Map; //import Map interface

@@ -1,4 +1,4 @@
-package COLLECTIONS.List;
+package Collections.List;
 import java.util.ArrayList; //import ArrayList
 import java.util.Collections; //import Collections utility class for sorting
 

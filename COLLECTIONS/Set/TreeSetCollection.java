@@ -1,4 +1,4 @@
-package COLLECTIONS.Set;
+package Collections.Set;
 import java.util.Comparator; //import Comparator
 import java.util.TreeSet; //import TreeSet
 
