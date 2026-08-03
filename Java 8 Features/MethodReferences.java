@@ -11,11 +11,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Supplier;
 
 class CompareInt implements Comparator<Integer>{
     @Override
     public int compare(Integer i1,Integer i2){
         return i1.compareTo(i2);
+    }
+}
+
+class Student{
+    String name;
+    public Student(String name){
+        this.name = name;
     }
 }
 
@@ -33,6 +41,16 @@ public class MethodReferences {
 
 
         //3. Instance methods of an arbitrary object of a particular type
-        
+        messages.stream()
+            .map(Integer::floatValue)
+            .forEach(System.out::println);
+
+        //4. Constructor
+        Supplier<ArrayList<Integer>> s = ArrayList::new; //method reference
+        ArrayList<Integer> a = s.get();
+        a.add(10);
+        a.add(20);
+        a.add(30);
+        a.forEach(System.out::println);
     }
 }
