@@ -117,6 +117,5 @@ public class Streams {
             //above line also can be written as:  .flatmap(l -> l.stream())
             .collect(Collectors.toList()); // Terminal: collect the results into a List
         System.out.println("Flattened list: " + flattenedList);
-        
     }
 }
