@@ -8,7 +8,7 @@
 //    - Intermediate operations are LAZY; they are not executed until a terminal operation is called.
 // 3. Terminal Operation: Triggers execution and produces a result or side-effect (e.g., forEach, collect, reduce, count).
 //    - Once a terminal operation is invoked, the stream is consumed and cannot be reused.
-
+//
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -108,5 +108,15 @@ public class Streams {
             .map(String::length) // Intermediate: transform string into its length (int)
             .collect(Collectors.toList()); // Terminal: collect the results into a List
         System.out.println("Lengths of each fruit name: " + nameLengths);
+
+        //3.4 using flatmap() to convert nested stream to single stream
+        List<List<Integer>> nestedList = List.of(List.of(1, 2, 3), List.of(4, 5), List.of(6, 7, 8));
+
+        List<Integer> flattenedList = nestedList.stream()
+            .flatMap(List::stream) // Intermediate: convert nested stream to single stream
+            //above line also can be written as:  .flatmap(l -> l.stream())
+            .collect(Collectors.toList()); // Terminal: collect the results into a List
+        System.out.println("Flattened list: " + flattenedList);
+        
     }
 }
