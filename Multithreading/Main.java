@@ -1,55 +1,96 @@
-// Multithreading in Java allows concurrent execution of two or more parts of a program.
-// A thread is a lightweight sub-process, the smallest unit of execution.
-//
-// There are two primary ways to create a thread in Java:
-// 1. By extending the Thread class:
-//    - Inherit from the java.lang.Thread class.
-//    - Override the run() method to define the thread's execution logic.
-//    - Instantiate the sub-class and invoke start() to begin execution.
-// 2. By implementing the Runnable interface:
-//    - Implement the java.lang.Runnable interface and define the run() method.
-//    - Instantiate the class, pass it to a Thread constructor, and invoke start() on the Thread object.
-//    - Note: Implementing Runnable is preferred because Java only supports single inheritance. 
-//      Implementing Runnable leaves the class free to inherit from another class.
+// Main.java - Minimal comments. Refer to README.md for detailed documentation.
 
-// Method 1: Extending the Thread class
 class MyThread extends Thread {
-
     @Override
     public void run() {
-        for (int i = 1; i <= 150; i++) {
-            System.out.println("hello (Thread class)");
+        for (int i = 1; i <= 3; i++) {
+            System.out.println(getName() + " (Thread class) is running... Step: " + i);
+            try {
+                // Thread.sleep() pauses the execution of the thread
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                System.out.println(getName() + " was interrupted.");
+            }
         }
     }
 }
 
-// Method 2: Implementing the Runnable interface
 class MyRunnable implements Runnable {
-
     @Override
     public void run() {
-        for (int i = 1; i <= 150; i++) {
-            System.out.println("hello (Runnable interface)");
+        for (int i = 1; i <= 3; i++) {
+            System.out.println(Thread.currentThread().getName() + " (Runnable interface) is running... Step: " + i);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                System.out.println(Thread.currentThread().getName() + " was interrupted.");
+            }
         }
     }
 }
 
 public class Main {
+    private static int counter = 0;
+
+    // Synchronized method to avoid race conditions
+    private static synchronized void increment() {
+        counter++;
+    }
 
     public static void main(String[] args) {
-
-        // 1. Create and start a thread using the Thread class subclass
+        System.out.println("=== 1. Starting Threads ===");
         MyThread t1 = new MyThread();
-        t1.start(); // Starts a new thread (invokes MyThread's run method asynchronously)
+        t1.setName("WorkerThread-1");
+        
+        Thread t2 = new Thread(new MyRunnable(), "WorkerThread-2");
 
-        // 2. Create and start a thread using the Runnable interface implementation
-        MyRunnable myRunnable = new MyRunnable();
-        Thread t2 = new Thread(myRunnable); // Pass Runnable instance to Thread constructor
-        t2.start(); // Starts a new thread (invokes MyRunnable's run method asynchronously)
+        // Start execution of both threads
+        t1.start();
+        t2.start();
 
-        // Main thread execution
-        for (int i = 1; i <= 150; i++) {
-            System.out.println("Main Thread");
+        try {
+            // join() forces the main thread to wait until t1 and t2 finish execution
+            t1.join();
+            t2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
+        System.out.println("\n=== 2. Thread Synchronization ===");
+        Thread syncThread1 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) increment();
+        });
+        Thread syncThread2 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) increment();
+        });
+
+        syncThread1.start();
+        syncThread2.start();
+
+        try {
+            syncThread1.join();
+            syncThread2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Final synchronized counter value (Expected 2000): " + counter);
+
+        System.out.println("\n=== 3. Daemon Thread ===");
+        Thread daemonThread = new Thread(() -> {
+            while (true) {
+                System.out.println("Daemon thread background task running...");
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    break;
+                }
+            }
+        });
+        // Daemon status must be set before starting the thread
+        daemonThread.setDaemon(true);
+        daemonThread.start();
+
+        System.out.println("Main thread execution finished. Daemon thread exits with JVM.");
     }
 }
+
