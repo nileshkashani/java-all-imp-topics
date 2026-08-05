@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
-
+//4. @functional interface
+@FunctionalInterface
 interface Nilesh {
     void greet();
 }
