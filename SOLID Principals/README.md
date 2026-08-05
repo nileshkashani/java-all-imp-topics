@@ -14,8 +14,10 @@ The acronym stands for:
 ## 📌 Directory Navigation
 - 📄 [SingleResponsibility.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/SingleResponsibility.java) — Demo for the Single Responsibility Principle.
 - 📄 [OpenClosedPrincipal.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/OpenClosedPrincipal.java) — Demo for the Open/Closed Principle.
+- 📄 [BirdBreforeLSP.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/BirdBreforeLSP.java) — Violation of Liskov Substitution Principle.
+- 📄 [BirdAfterLSP.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/BirdAfterLSP.java) — Resolution of LSP violation.
 
-*Note: The remaining three principles (Liskov Substitution, Interface Segregation, and Dependency Inversion) will be covered in separate source files in the future.*
+*Note: The remaining two principles (Interface Segregation and Dependency Inversion) will be covered in separate source files in the future.*
 
 ---
 
@@ -55,3 +57,33 @@ In [OpenClosedPrincipal.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toH
 * We define a common `PaymentMethod` interface. (See [OpenClosedPrincipal.java:L13-16](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/OpenClosedPrincipal.java#L13-L16))
 * If we want to add PayPal integration alongside Credit Cards, we do not modify `CreditCardPayment` or `PaymentProcessor`. Instead, we **extend** the behavior by adding a new class `PaypalPayment`. (See [OpenClosedPrincipal.java:L25-30](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/OpenClosedPrincipal.java#L25-L30))
 * `PaymentProcessor` is **closed for modification** because its `execute()` method takes a polymorphic `PaymentMethod` parameter and runs it without caring about the concrete implementation details. (See [OpenClosedPrincipal.java:L33-39](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/OpenClosedPrincipal.java#L33-L39))
+
+---
+
+## 3. L - Liskov Substitution Principle (LSP)
+
+> *"Subtypes must be substitutable for their base types."*
+
+### 💡 The Core Concept
+If class `B` is a subclass of class `A`, we should be able to replace `A` with `B` without breaking the correctness or behavior of our program. 
+- A subclass should **extend** the behavior of the parent class, but it should not **narrow it down** or disable capabilities expected of the parent.
+
+### 🐧 Real-World Analogy: Toy Duck vs. Real Duck
+A kid plays with a toy duck that takes batteries and squeaks. If the kid substitutes a real duck, it doesn't take batteries! Although they both look like "ducks", they cannot be substituted blindly in the same program because the toy duck requires a specific `replaceBatteries()` interface.
+
+### 💻 Code Explanation
+
+#### The Violation:
+In [BirdBreforeLSP.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/BirdBreforeLSP.java), class `Bird` defines a `fly()` method.
+- When `Penguin` inherits `Bird`, it is forced to inherit the `fly()` method.
+- Since penguins cannot fly, it overrides it to print "cannot fly" (or throw an exception).
+- This violates LSP! Any code expecting a `Bird` class to fly will fail or have unexpected behavior when a `Penguin` is passed. (See [BirdBreforeLSP.java:L21-26](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/BirdBreforeLSP.java#L21-L26)).
+
+#### The Solution:
+In [BirdAfterLSP.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/BirdAfterLSP.java), we solve this:
+- We remove `fly()` from the base `Bird` class because not all birds can fly. (See [BirdAfterLSP.java:L12-16](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/BirdAfterLSP.java#L12-L16)).
+- We create a separate `Flyable` interface. (See [BirdAfterLSP.java:L19-21](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/BirdAfterLSP.java#L19-L21)).
+- `sparrow` inherits `Bird` and implements `Flyable` because it can fly. (See [BirdAfterLSP.java:L24-29](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/BirdAfterLSP.java#L24-L29)).
+- `Penguin` inherits `Bird` but does not implement `Flyable`. It can implement other behaviors like `swim()`. (See [BirdAfterLSP.java:L32-37](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/BirdAfterLSP.java#L32-L37)).
+- Now, client code can substitute subclasses of `Bird` safely without unexpected errors.
+
