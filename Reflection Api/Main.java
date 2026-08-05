@@ -5,7 +5,7 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
 // Target class A representing a typical class to inspect/manipulate
-class A {
+final class A {
     private String name;
     private int rollno;
     public String city;
@@ -63,6 +63,7 @@ public class Main {
 
             // Instantiating using a private parameterized constructor
             Constructor<?> privateCons = clazz.getDeclaredConstructor(String.class, int.class, String.class);
+
             // setAccessible(true) bypasses Java access control checks (private access)
             privateCons.setAccessible(true);
             A obj = (A) privateCons.newInstance("Anshu", 10, "Delhi");
