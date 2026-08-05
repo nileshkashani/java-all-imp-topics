@@ -43,7 +43,7 @@ public class CreatingCustomAnnotation {
 
     public static void main(String[] args) {
         CreatingCustomAnnotation c = new CreatingCustomAnnotation();
-
+        
         try {
             c.greet();
         } catch (NoSuchMethodException e) {
