@@ -17,8 +17,7 @@ The acronym stands for:
 - 📄 [BirdBreforeLSP.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/BirdBreforeLSP.java) — Violation of Liskov Substitution Principle.
 - 📄 [BirdAfterLSP.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/BirdAfterLSP.java) — Resolution of LSP violation.
 - 📄 [InterfaceSegregation.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/InterfaceSegregation.java) — Demo for the Interface Segregation Principle.
-
-*Note: The remaining principle (Dependency Inversion) will be covered in separate source files in the future.*
+- 📄 [DependencyInversion.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/DependencyInversion.java) — Demo for the Dependency Inversion Principle.
 
 ---
 
@@ -115,4 +114,29 @@ These interfaces are implemented by specialized classes that only contain the re
 * `DrinkMenu` implements `IDrinkMenu`. (See [InterfaceSegregation.java:L49-54](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/InterfaceSegregation.java#L49-L54))
 
 Finally, `MenuDisplay` accesses these specific interfaces to only print the menus relevant to the specific customer type, avoiding any unnecessary dependencies. (See [InterfaceSegregation.java:L57-71](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/InterfaceSegregation.java#L57-L71))
+
+---
+
+## 5. D - Dependency Inversion Principle (DIP)
+
+> *"High-level modules should not depend on low-level modules. Both should depend on abstractions. Abstractions should not depend on details. Details should depend on abstractions."*
+
+### 💡 The Core Concept
+Traditional design tends to have high-level components depend directly on low-level components (concrete implementations). DIP reverses this dependency structure, forcing both high-level and low-level modules to depend on common interfaces (abstractions). This decouples code and makes components easily swappable and testable.
+
+### 🔌 Real-World Analogy: Computer Ports (USB/HDMI)
+Think of a computer motherboard. If a motherboard had its logic directly soldered to a specific brand of keyboard and monitor, you could never upgrade them without replacing the entire computer.
+Instead, computer systems expose standard ports (USB and HDMI) which act as the contract/interface.
+- The computer motherboard (high-level) depends on the USB/HDMI interface.
+- Keyboards and monitors (low-level/details) conform to the USB/HDMI standard.
+This allows you to plug in any brand or style of keyboard and monitor seamlessly.
+
+### 💻 Code Explanation
+In [DependencyInversion.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/DependencyInversion.java):
+* We define abstractions for our devices: `Keyboard` (See [DependencyInversion.java:L17-19](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/DependencyInversion.java#L17-L19)) and `Monitor` (See [DependencyInversion.java:L22-24](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/DependencyInversion.java#L22-L24)).
+* We implement low-level concrete details that depend on those interfaces:
+  * `MechanicalKeyboard` and `MembraneKeyboard` implement `Keyboard`.
+  * `LEDMonitor` and `Projector` implement `Monitor`.
+* Our high-level module `WindowsComputer` does not import or refer to any of the concrete keyboard/monitor classes. Instead, it accepts any objects that implement `Keyboard` and `Monitor` via constructor dependency injection. (See [DependencyInversion.java:L59-74](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/DependencyInversion.java#L59-L74))
+* In the `main` method of class `DependencyInversion`, we dynamically plug in different devices to construct various configurations without modifying `WindowsComputer`. (See [DependencyInversion.java:L76-96](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/DependencyInversion.java#L76-L96))
 
