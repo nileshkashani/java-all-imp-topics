@@ -16,8 +16,9 @@ The acronym stands for:
 - 📄 [OpenClosedPrincipal.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/OpenClosedPrincipal.java) — Demo for the Open/Closed Principle.
 - 📄 [BirdBreforeLSP.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/BirdBreforeLSP.java) — Violation of Liskov Substitution Principle.
 - 📄 [BirdAfterLSP.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/BirdAfterLSP.java) — Resolution of LSP violation.
+- 📄 [InterfaceSegregation.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/InterfaceSegregation.java) — Demo for the Interface Segregation Principle.
 
-*Note: The remaining two principles (Interface Segregation and Dependency Inversion) will be covered in separate source files in the future.*
+*Note: The remaining principle (Dependency Inversion) will be covered in separate source files in the future.*
 
 ---
 
@@ -86,4 +87,32 @@ In [BirdAfterLSP.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOL
 - `sparrow` inherits `Bird` and implements `Flyable` because it can fly. (See [BirdAfterLSP.java:L24-29](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/BirdAfterLSP.java#L24-L29)).
 - `Penguin` inherits `Bird` but does not implement `Flyable`. It can implement other behaviors like `swim()`. (See [BirdAfterLSP.java:L32-37](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/BirdAfterLSP.java#L32-L37)).
 - Now, client code can substitute subclasses of `Bird` safely without unexpected errors.
+
+---
+
+## 4. I - Interface Segregation Principle (ISP)
+
+> *"Clients should not be forced to depend on interfaces they do not use."*
+
+### 💡 The Core Concept
+Focuses on keeping interfaces specific and well-defined. We should avoid "fat" interfaces by using multiple small, client-specific interfaces, each with a clear and specific responsibility. This ensures that implementing classes are not forced to write dummy implementations for methods they don't need.
+
+### 🥖 Real-World Analogy: The Restaurant Menu
+Suppose you enter a restaurant and you are a pure vegetarian. If the waiter gives you a general menu card that includes vegetarian items, non-vegetarian items, drinks, and sweets, you are forced to parse information that is irrelevant to you.
+Instead:
+- The customer should receive a menu relevant to their needs (vegetarian only).
+- Splitting a common, large menu into smaller, specific menus reduces unnecessary dependencies and minimizes future changes.
+
+### 💻 Code Explanation
+In [InterfaceSegregation.java](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/InterfaceSegregation.java), we split a single general menu interface into smaller, specialized interfaces:
+* `IVegetarianMenu`: (See [InterfaceSegregation.java:L18-20](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/InterfaceSegregation.java#L18-L20))
+* `INonVegetarianMenu`: (See [InterfaceSegregation.java:L23-25](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/InterfaceSegregation.java#L23-L25))
+* `IDrinkMenu`: (See [InterfaceSegregation.java:L28-30](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/InterfaceSegregation.java#L28-L30))
+
+These interfaces are implemented by specialized classes that only contain the relevant items:
+* `VegetarianMenu` implements `IVegetarianMenu`. (See [InterfaceSegregation.java:L33-38](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/InterfaceSegregation.java#L33-L38))
+* `NonVegetarianMenu` implements `INonVegetarianMenu`. (See [InterfaceSegregation.java:L41-46](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/InterfaceSegregation.java#L41-L46))
+* `DrinkMenu` implements `IDrinkMenu`. (See [InterfaceSegregation.java:L49-54](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/InterfaceSegregation.java#L49-L54))
+
+Finally, `MenuDisplay` accesses these specific interfaces to only print the menus relevant to the specific customer type, avoiding any unnecessary dependencies. (See [InterfaceSegregation.java:L57-71](file:///c:/Users/Owner/desktop1/Next%20js/java0toHero/SOLID%20Principals/InterfaceSegregation.java#L57-L71))
 
